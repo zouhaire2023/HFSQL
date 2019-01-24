@@ -31,6 +31,7 @@ fi
 if [ "$1" = '/opt/hfsql/manta64' ] || [ "$1" = 'createhfsqluser' ]; then
 	if [ ! -d "/var/lib/hfsql/__system" ]; then
 		file_env 'HFSQL_PASSWORD'
+		file_env 'HFSQL_USER'
 		
 		if [ "${HFSQL_RANDOM_PASSWORD:-}" = "yes" ]; then
 			if [ ! -z "${HFSQL_PASSWORD}" ]; then
@@ -41,8 +42,12 @@ if [ "$1" = '/opt/hfsql/manta64' ] || [ "$1" = 'createhfsqluser' ]; then
 			echo "generated password: $HFSQL_PASSWORD"
 		fi
 		
+		if [  -z "${HFSQL_USER}" ]; then
+			HFSQL_USER='admin'
+		fi
+		
 		if [ ! -z "${HFSQL_PASSWORD}" ]; then
-			/opt/hfsql/manta64 --CREATEUSER "admin" --PWD "$HFSQL_PASSWORD" 
+			/opt/hfsql/manta64 --CREATEUSER "$HFSQL_USER" --PWD "$HFSQL_PASSWORD" 
 		fi
 	fi
 	if [ "$1" = 'createhfsqluser' ]; then

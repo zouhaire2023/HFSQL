@@ -22,7 +22,6 @@ file_env() {
 	unset "$fileVar"
 }
 
-# first arg is the bare word `couchdb`
 if [ "$1" = 'hfsql' ]; then
 	shift
 	set -- /opt/hfsql/manta64 --no-daemon "$@"
